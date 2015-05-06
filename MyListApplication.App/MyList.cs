@@ -10,26 +10,33 @@ namespace MyListApplication.App
     public class MyList<T> : IEnumerable<T>
     {
         private T[] items;
+        private int nbOfItems;
 
         public MyList()
         {
-            items = new T[0];
+            //dimensiunea default pt MyList = 2
+            items = new T[2];  
+            nbOfItems = 0;
         }
 
         public int Count 
         {
             get
             {
-                return items.Count();
+                return nbOfItems;
             }
         }
 
         public void Add(T item)
         {
-            var newItems = new T[this.Count + 1];
-            Array.Copy(items, newItems, items.Count());
-            newItems[items.Count()] = item;
-            items = newItems;
+            if(Count == items.Count())  //nu mai avem loc in Array
+            {
+                var newItems = new T[Count * 2];
+                Array.Copy(items, newItems, Count);
+                items = newItems;
+            }
+            items[Count] = item;
+            nbOfItems++;
         }
 
         public T this[int index]
@@ -38,7 +45,7 @@ namespace MyListApplication.App
             {
                 if (index < 0 || index > this.Count - 1)
                 {
-                    throw new ArgumentOutOfRangeException("index", "Index must pe bigger than one and smaller than Count");
+                    throw new ArgumentOutOfRangeException("index", "Index must pe bigger or equal with 0 and smaller than Count");
                 }
                 else
                 {
@@ -49,7 +56,7 @@ namespace MyListApplication.App
             {
                 if (index < 0 || index > this.Count - 1)
                 {
-                    throw new ArgumentOutOfRangeException("index", "Index must pe bigger than one and smaller than Count");
+                    throw new ArgumentOutOfRangeException("index", "Index must pe bigger or equal with 0 and smaller than Count");
                 }
                 else
                 {
@@ -60,16 +67,20 @@ namespace MyListApplication.App
 
         public void Clear()
         {
-            items = new T[0];
+            items = new T[2];
+            nbOfItems = 0;
         }
 
         public bool Contains (T item)
         {
-            for (int i = 0; i < Count; i++)
+            if (item != null)
             {
-                if (item.Equals(items[i]))
+                for (int i = 0; i < Count; i++)
                 {
-                    return true;
+                    if (item.Equals(items[i]))
+                    {
+                        return true;
+                    }
                 }
             }
             return false;
@@ -81,6 +92,7 @@ namespace MyListApplication.App
             Array.Copy(items, 0, newItems, 0, index);
             Array.Copy(items, index + 1, newItems, index, Count - index - 1);
             items = newItems;
+            nbOfItems--;
         }
 
         public IEnumerator<T> GetEnumerator()
@@ -106,9 +118,9 @@ namespace MyListApplication.App
 
         public void DisplayList()
         {
-            foreach (T listItem in this.items)
+            for (int i = 0; i < Count; i++)
             {
-                Console.Write("{0} ", listItem);
+                Console.Write("{0} ", items[i]);
             }
             Console.WriteLine();
         }
