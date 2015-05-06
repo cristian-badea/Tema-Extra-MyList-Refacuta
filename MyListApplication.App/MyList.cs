@@ -10,20 +10,19 @@ namespace MyListApplication.App
     public class MyList<T> : IEnumerable<T>
     {
         private T[] items;
-        private int nbOfItems;
+        private int numberOfItems;
 
         public MyList()
         {
-            //dimensiunea default pt MyList = 2
-            items = new T[2];  
-            nbOfItems = 0;
+            Initialize();
+           
         }
 
         public int Count 
         {
             get
             {
-                return nbOfItems;
+                return numberOfItems;
             }
         }
 
@@ -36,7 +35,7 @@ namespace MyListApplication.App
                 items = newItems;
             }
             items[Count] = item;
-            nbOfItems++;
+            numberOfItems++;
         }
 
         public T this[int index]
@@ -67,8 +66,7 @@ namespace MyListApplication.App
 
         public void Clear()
         {
-            items = new T[2];
-            nbOfItems = 0;
+            Initialize();
         }
 
         public bool Contains (T item)
@@ -92,7 +90,7 @@ namespace MyListApplication.App
             Array.Copy(items, 0, newItems, 0, index);
             Array.Copy(items, index + 1, newItems, index, Count - index - 1);
             items = newItems;
-            nbOfItems--;
+            numberOfItems--;
         }
 
         public IEnumerator<T> GetEnumerator()
@@ -123,6 +121,13 @@ namespace MyListApplication.App
                 Console.Write("{0} ", items[i]);
             }
             Console.WriteLine();
+        }
+
+        private void Initialize()
+        {
+            //dimensiunea default pt MyList = 2
+            items = new T[2];
+            numberOfItems = 0;
         }
     }
 }
