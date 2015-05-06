@@ -54,6 +54,7 @@ namespace MyListApplication.App
             sortedList.DisplayList();
 
             Console.ReadKey();
+
         }
     }
 }

@@ -81,6 +81,16 @@ namespace MyListApplication.App
                     }
                 }
             }
+            else
+            {
+                for (int i = 0; i < Count; i++)
+                {
+                    if(item == null)
+                    {
+                        return true;
+                    }
+                }
+            }
             return false;
         }
 
